@@ -24,14 +24,24 @@ while(True):
 
 #Group/Class of important functions:
 class main_calculator:
+    """
+    ### A class containing methods to calculate HCF and LCM of and
+    ### also to Prime-Factorise two given numbers.
     
+    Things to keep in mind before use:
+    * Pass/Give two integer numbers as arguments.
+    * Keywords for accepted arguments are, 
+    'number1' and 'number2' respectively.
+    * Arguments are explicitly converted to integers.
+    """
     #Initialization of main parameters:
     def __init__(self, number1:int, number2:int):
-        self.number1 = number1
-        self.number2 = number2
-    
-    #Method to prime factorise numbers:
-    def prime_factorise(self):
+        self.number1 = int(number1)
+        self.number2 = int(number2)
+        
+    def prime_factorise(self) -> dict:
+        """_Method to prime-factorise both numbers._"""
+        
         prime_factors:dict = {}
         
         #Prime Factorisation Algorithm:
@@ -55,10 +65,14 @@ class main_calculator:
 
         return prime_factors
     
-    #Method to find HCF:
-    def find_hcf(self):
-        prime_factors = self.prime_factorise()
-        hcf = 1
+    def find_hcf(self) -> int:
+        """
+        _Method to find HCF(Highest Common Factor) of both 
+        numbers._
+        """
+        
+        prime_factors:dict = self.prime_factorise()
+        hcf:int = 1
         
         for factor in prime_factors["num1"]:
             if factor in prime_factors["num2"]:
@@ -69,6 +83,9 @@ class main_calculator:
         
         return hcf
     
-    #Method to find LCM:
-    def find_lcm(self):
+    def find_lcm(self) -> int:
+        """
+        _Method to find LCM(Least/Lowest Common Factor) of both 
+        numbers._
+        """
         return (self.number1*self.number2)//self.find_hcf()
