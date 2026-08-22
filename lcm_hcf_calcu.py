@@ -1,28 +1,35 @@
-#Showpiece Values:
+# Showpiece Values:
 mid_dash_sep = "---------------------------"
 long_dash_sep = "-------------------------------------------------------------"
 short_dash_sep = "----"
 
-#Intro Body:
+# Intro Body:
 print(long_dash_sep)
 print("LCM & HCF Calculator")
 print(short_dash_sep)
-print("[Author -> Ayush Kumar Kurrey | Edition Name -> Two Num Ed.]")
-print(long_dash_sep,"\n")
+print("[Author -> Ayush Kumar Kurrey | Edition -> Two Num Ed.]")
+print(long_dash_sep)
 
-#Simple Input Management Loop:
+# Simple Input Management Loop:
 while(True):
     try:
-        num1 = int(input("Enter the first number (integer only): "))
-        num2 = int(input("Enter the second number (integer only): "))
+        num1 = int(input("Enter the 1st number (integer only): "))
+        num2 = int(input("Enter the 2nd number (integer only): "))
     except(ValueError):
         print(mid_dash_sep)
         print("NOTE: Please enter only the valid and acceptable values.")
         print(short_dash_sep,"\n")
     else:
-        break
+        # Negative integers not allowed as always LCM and HCF are
+        # positive(or also neutral in case of LCM but not negative):
+        if num1 < 0:
+            num1 = num1*-1
+        elif num2 < 0:
+            num2 = num2*-1
+        else:
+            break
 
-#Group/Class of important functions:
+# Group/Class of important functions:
 class main_calculator:
     """
     ### A class containing methods to calculate HCF and LCM of and
@@ -69,7 +76,7 @@ class main_calculator:
         """
         _Method to find HCF(Highest Common Factor) of both 
         numbers._
-        """
+        """        
         
         prime_factors:dict = self.prime_factorise()
         hcf:int = 1
@@ -89,3 +96,40 @@ class main_calculator:
         numbers._
         """
         return (self.number1*self.number2)//self.find_hcf()
+
+# An important class object:
+calcu = main_calculator(num1,num2)
+
+# Valuable Values:
+prime_factors_dict:dict = calcu.prime_factorise()
+final_lcm:int = calcu.find_lcm()
+final_hcf:int = calcu.find_hcf()
+final_prime_factors_dict:dict = {"num1": "", "num2": ""}
+
+# A For-Loop family for creating string values representing 
+# prime-factors of the numbers in a neat/presentable way:
+for factors_key in prime_factors_dict:
+    current_factor_list = prime_factors_dict[factors_key]
+    for factor in current_factor_list[:]:
+        factor_count = current_factor_list.count(factor)
+        if factor_count == 0:
+            continue
+        if len(final_prime_factors_dict[factors_key]) == 0:
+                final_prime_factors_dict[factors_key] = (f"{factor}^"
+                                                        f"{factor_count}")
+                current_factor_list[:] = [x for x in current_factor_list 
+                                          if x != factor]
+        else:
+            final_prime_factors_dict[factors_key] += (f" * {factor}^"
+                                                        f"{factor_count}")
+            current_factor_list[:] = [x for x in current_factor_list 
+                                      if x != factor]
+
+# Work-related user entertainment:
+print(long_dash_sep)
+print(f"- Prime Factors of The 1st Number: {final_prime_factors_dict["num1"]}")
+print(f"- Prime Factors of The 2nd Number: {final_prime_factors_dict["num2"]}")
+print(f"  {short_dash_sep}")
+print(f"- LCM({num1},{num2}): {final_lcm}")
+print(f"- HCF({num1},{num2}): {final_hcf}")
+print(long_dash_sep)
