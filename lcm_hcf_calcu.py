@@ -15,6 +15,7 @@ while(True):
     try:
         num1 = int(input("Enter the 1st number (integer only): "))
         num2 = int(input("Enter the 2nd number (integer only): "))
+        orig_usr_inputs = {"num1": num1, "num2": num2}
     except(ValueError):
         print(mid_dash_sep)
         print("NOTE: Please enter only the valid and acceptable values.")
@@ -24,7 +25,7 @@ while(True):
         # positive(or also neutral in case of LCM but not negative):
         if num1 < 0:
             num1 = num1*-1
-        elif num2 < 0:
+        if num2 < 0:
             num2 = num2*-1
         else:
             break
@@ -41,7 +42,7 @@ class main_calculator:
     'number1' and 'number2' respectively.
     * Arguments are explicitly converted to integers.
     """
-    #Initialization of main parameters:
+    # Initialization of main parameters:
     def __init__(self, number1:int, number2:int):
         self.number1 = int(number1)
         self.number2 = int(number2)
@@ -51,10 +52,23 @@ class main_calculator:
         
         prime_factors:dict = {}
         
-        #Prime Factorisation Algorithm:
         def factorise(num):
+            """
+            _Prime Factorisation Algorithm (Internal Nested Function)_
+            """
+            # Some Prerequisite Values:
             factor_list = []
             divisor:int = 2
+            
+            # Neutral Integer Handling(and that for 1 also):
+            if num == 0:
+                return factor_list
+            elif num == 1:
+                factor_list.append(1)
+                return factor_list
+            else:
+                pass
+            
             while True:
                 num_remainder = (num)%(divisor)
                 if num_remainder != 0:
@@ -76,40 +90,59 @@ class main_calculator:
         """
         _Method to find HCF(Highest Common Factor) of both 
         numbers._
-        """        
+        """
         
-        prime_factors:dict = self.prime_factorise()
-        hcf:int = 1
-        
-        for factor in prime_factors["num1"]:
-            if factor in prime_factors["num2"]:
-                hcf *= factor
-                prime_factors["num2"].remove(factor)
-            else:
-                pass
-        
-        return hcf
+        # Neutral Integer Value Handling
+        # (HCF is always positive and non-zero):
+        if (num1 == 0 and num2 != 0) or (num2 == 0 and num1 != 0):
+            return max([num1,num2])
+        elif num1 == 0 and num2 == 0:
+            raise Exception(f"HCF({num1},{num2}) undefined.")
+        else:
+            # Some Prerequisite Values:
+            prime_factors:dict = self.prime_factorise()
+            hcf:int = 1
+            
+            # HCF Calculating Algorithm:
+            for factor in prime_factors["num1"]:
+                if factor in prime_factors["num2"]:
+                    hcf *= factor
+                    prime_factors["num2"].remove(factor)
+                else:
+                    pass
+            
+            return hcf
     
     def find_lcm(self) -> int:
         """
         _Method to find LCM(Least/Lowest Common Factor) of both 
         numbers._
         """
-        return (self.number1*self.number2)//self.find_hcf()
+        # Neutral Integer Value Handling
+        # (LCM is always non-negative.):
+        if (num1 == 0 and num2 != 0) or (num2 == 0 and num1 != 0):
+            return min([num1,num2])
+        elif num1 == 0 and num2 == 0:
+            return 0
+        else:
+            #LCM Formula:
+            return (self.number1*self.number2)//self.find_hcf()
 
 # An important class object:
 calcu = main_calculator(num1,num2)
 
-# Valuable Values:
+# Some Prerequisite Values:
 prime_factors_dict:dict = calcu.prime_factorise()
 final_lcm:int = calcu.find_lcm()
-final_hcf:int = calcu.find_hcf()
 final_prime_factors_dict:dict = {"num1": "", "num2": ""}
+txt_for_undefined_val = "UNDEFINED"
 
-# A For-Loop family for creating string values representing 
+# A For-Loop family for creating string values representing
 # prime-factors of the numbers in a neat/presentable way:
 for factors_key in prime_factors_dict:
     current_factor_list = prime_factors_dict[factors_key]
+    if len(current_factor_list) == 0:
+        final_prime_factors_dict[factors_key] = txt_for_undefined_val
     for factor in current_factor_list[:]:
         factor_count = current_factor_list.count(factor)
         if factor_count == 0:
@@ -130,6 +163,16 @@ print(long_dash_sep)
 print(f"- Prime Factors of The 1st Number: {final_prime_factors_dict["num1"]}")
 print(f"- Prime Factors of The 2nd Number: {final_prime_factors_dict["num2"]}")
 print(f"  {short_dash_sep}")
-print(f"- LCM({num1},{num2}): {final_lcm}")
-print(f"- HCF({num1},{num2}): {final_hcf}")
+print(f"- LCM({orig_usr_inputs["num1"]},{orig_usr_inputs['num2']}): "
+      f"{final_lcm}")
+# Special treatment for HCF Value output, as it can be 
+# 'Undefined':
+try:
+    print(f"- HCF({orig_usr_inputs['num1']},{orig_usr_inputs['num2']}): ", 
+          end="")
+    final_hcf:int = calcu.find_hcf()
+except(Exception):
+    print(txt_for_undefined_val)
+else:
+    print(final_hcf)
 print(long_dash_sep)
