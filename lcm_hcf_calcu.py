@@ -21,17 +21,13 @@ while(True):
         print("NOTE: Please enter only the valid and acceptable values.")
         print(short_dash_sep,"\n")
     else:
-        # Negative integers not allowed as always LCM and HCF are
-        # positive(or also neutral in case of LCM but not negative):
-        if num1 < 0:
-            num1 = num1*-1
-        if num2 < 0:
-            num2 = num2*-1
-        else:
-            break
+        #Getting absolute values of inputs:
+        num1 = abs(num1)
+        num2 = abs(num2)
+        break
 
 # Group/Class of important functions:
-class main_calculator:
+class Main_Calculator:
     """
     ### A class containing methods to calculate HCF and LCM of and
     ### also to Prime-Factorise two given numbers.
@@ -60,15 +56,11 @@ class main_calculator:
             factor_list = []
             divisor:int = 2
             
-            # Neutral Integer Handling(and that for 1 also):
-            if num == 0:
+            # 0 and 1 has no prime divisors:
+            if num == 0 or num == 1:
                 return factor_list
-            elif num == 1:
-                factor_list.append(1)
-                return factor_list
-            else:
-                pass
             
+            # Main Prime-Factorisation Loop:
             while True:
                 num_remainder = (num)%(divisor)
                 if num_remainder != 0:
@@ -129,7 +121,7 @@ class main_calculator:
             return (self.number1*self.number2)//self.find_hcf()
 
 # An important class object:
-calcu = main_calculator(num1,num2)
+calcu = Main_Calculator(num1,num2)
 
 # Some Prerequisite Values:
 prime_factors_dict:dict = calcu.prime_factorise()
@@ -141,22 +133,32 @@ txt_for_undefined_val = "UNDEFINED"
 # prime-factors of the numbers in a neat/presentable way:
 for factors_key in prime_factors_dict:
     current_factor_list = prime_factors_dict[factors_key]
-    if len(current_factor_list) == 0:
+    to_called_none_vals = (1,-1)
+    if (len(current_factor_list) == 0) and (orig_usr_inputs[factors_key] not in 
+                                            to_called_none_vals):
         final_prime_factors_dict[factors_key] = txt_for_undefined_val
-    for factor in current_factor_list[:]:
-        factor_count = current_factor_list.count(factor)
-        if factor_count == 0:
-            continue
-        if len(final_prime_factors_dict[factors_key]) == 0:
-                final_prime_factors_dict[factors_key] = (f"{factor}^"
-                                                        f"{factor_count}")
+        continue
+    elif (len(current_factor_list) == 0 and (orig_usr_inputs[factors_key] in 
+                                             to_called_none_vals)):
+        final_prime_factors_dict[factors_key] = "NONE"
+        continue
+    else:
+        if orig_usr_inputs[factors_key] < 0:
+            final_prime_factors_dict[factors_key] = "-1"
+        for factor in current_factor_list[:]:
+            factor_count = current_factor_list.count(factor)
+            if factor_count == 0:
+                continue
+            if len(final_prime_factors_dict[factors_key]) == 0:
+                    final_prime_factors_dict[factors_key] = (f"{factor}^"
+                                                            f"{factor_count}")
+                    current_factor_list[:] = [x for x in current_factor_list 
+                                            if x != factor]
+            else:
+                final_prime_factors_dict[factors_key] += (f" * {factor}^"
+                                                            f"{factor_count}")
                 current_factor_list[:] = [x for x in current_factor_list 
-                                          if x != factor]
-        else:
-            final_prime_factors_dict[factors_key] += (f" * {factor}^"
-                                                        f"{factor_count}")
-            current_factor_list[:] = [x for x in current_factor_list 
-                                      if x != factor]
+                                        if x != factor]
 
 # Work-related user entertainment:
 print(long_dash_sep)
@@ -176,3 +178,7 @@ except(Exception):
 else:
     print(final_hcf)
 print(long_dash_sep)
+# Formality for exiting program:
+print("[Press Enter Twice to Exit...]")
+for i in range(2):
+    input("")
