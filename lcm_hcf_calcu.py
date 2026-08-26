@@ -37,6 +37,8 @@ class Main_Calculator:
     * Keywords for accepted arguments are, 
     'number1' and 'number2' respectively.
     * Arguments are explicitly converted to integers.
+    * Raises custom exception for showing the value of HCF(0,0) 
+    as undefined to the developer.
     """
     # Initialization of main parameters:
     def __init__(self, number1:int, number2:int):
@@ -53,7 +55,7 @@ class Main_Calculator:
             _Prime Factorisation Algorithm (Internal Nested Function)_
             """
             # Some Prerequisite Values:
-            factor_list = []
+            factor_list:list[int] = []
             divisor:int = 2
             
             # 0 and 1 has no prime divisors:
@@ -86,10 +88,11 @@ class Main_Calculator:
         
         # Neutral Integer Value Handling
         # (HCF is always positive and non-zero):
-        if (num1 == 0 and num2 != 0) or (num2 == 0 and num1 != 0):
-            return max([num1,num2])
-        elif num1 == 0 and num2 == 0:
-            raise Exception(f"HCF({num1},{num2}) undefined.")
+        if ((self.number1 == 0 and self.number2 != 0) or 
+            (self.number2 == 0 and self.number1 != 0)):
+            return max([self.number1,self.number2])
+        elif self.number1 == 0 and self.number2 == 0:
+            raise Exception(f"HCF({self.number1},{self.number2}) undefined.")
         else:
             # Some Prerequisite Values:
             prime_factors:dict = self.prime_factorise()
@@ -112,9 +115,10 @@ class Main_Calculator:
         """
         # Neutral Integer Value Handling
         # (LCM is always non-negative.):
-        if (num1 == 0 and num2 != 0) or (num2 == 0 and num1 != 0):
-            return min([num1,num2])
-        elif num1 == 0 and num2 == 0:
+        if ((self.number1 == 0 and self.number2 != 0) or 
+            (self.number2 == 0 and self.number1 != 0)):
+            return min([self.number1,self.number2])
+        elif self.number1 == 0 and self.number2 == 0:
             return 0
         else:
             #LCM Formula:
