@@ -21,7 +21,7 @@ while(True):
         print("NOTE: Please enter only the valid and acceptable values.")
         print(short_dash_sep,"\n")
     else:
-        #Getting absolute values of inputs:
+        # Getting absolute values of inputs:
         num1 = abs(num1)
         num2 = abs(num2)
         break
@@ -121,7 +121,7 @@ class Main_Calculator:
         elif self.number1 == 0 and self.number2 == 0:
             return 0
         else:
-            #LCM Formula:
+            # LCM Formula:
             return (self.number1*self.number2)//self.find_hcf()
 
 # An important class object:
@@ -166,13 +166,12 @@ for factors_key in prime_factors_dict:
 
 # Work-related user entertainment:
 print(long_dash_sep)
-print(f"- Prime Factors of The 1st Number: {final_prime_factors_dict["num1"]}")
-print(f"- Prime Factors of The 2nd Number: {final_prime_factors_dict["num2"]}")
+print(f"- Prime Factors of The 1st Number: {final_prime_factors_dict['num1']}")
+print(f"- Prime Factors of The 2nd Number: {final_prime_factors_dict['num2']}")
 print(f"  {short_dash_sep}")
-print(f"- LCM({orig_usr_inputs["num1"]},{orig_usr_inputs['num2']}): "
+print(f"- LCM({orig_usr_inputs['num1']},{orig_usr_inputs['num2']}): "
       f"{final_lcm}")
-# Special treatment for HCF Value output, as it can be 
-# 'Undefined':
+# Special treatment for HCF Value output, as it can be 'Undefined':
 try:
     print(f"- HCF({orig_usr_inputs['num1']},{orig_usr_inputs['num2']}): ", 
           end="")
