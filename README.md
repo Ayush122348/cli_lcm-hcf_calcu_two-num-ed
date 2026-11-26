@@ -1,0 +1,2 @@
+# LCM & HCF Calculator | Two Num Edition
+A minimal **CLI HCF & LCM Calculator** made with **UX, Utility and Strict Mathematical Rules kept in mind**. It bases its calculations on the prime factors of the provided numerical inputs and provides the user with prime factorisation results along with the LCM and HCF, after the required computation. **Deliberately built and tested to handle mathematical edge cases.**
